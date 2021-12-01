@@ -25,7 +25,8 @@ public class BallKicker : NPC, IWanderer
         RaycastHit _hit;
         if (Physics.SphereCast(transform.position, 1, Vector3.up, out _hit, layerBall))
         {
-            _hit.transform.GetComponent<IInteractableNPC>().Interact(transform);
+            if(_hit.transform && _hit.transform.GetComponent<IInteractableNPC>() != null)
+                _hit.transform.GetComponent<IInteractableNPC>().Interact(transform);
         }
     }
 

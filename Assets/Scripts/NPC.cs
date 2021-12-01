@@ -38,8 +38,11 @@ public class NPC : MonoBehaviour
             NavMeshHit _hit;
             if (NavMesh.SamplePosition(_randomPoint, out _hit, 1.0f, NavMesh.AllAreas))
             {
+                NavMeshPath navMeshPath = new NavMeshPath();
                 _result = _hit.position;
-                return true;
+                agent.CalculatePath(_result, navMeshPath);
+                if (navMeshPath.status == NavMeshPathStatus.PathComplete)
+                    return true;
             }
         }
         _result = Vector3.zero;

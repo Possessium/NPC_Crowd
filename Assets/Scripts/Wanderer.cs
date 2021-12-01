@@ -10,14 +10,15 @@ public class Wanderer : NPC, IWanderer
     {
         base.Update();
 
-        if (!wait && transform.position == agent.destination)
+        if (!wait && Vector3.Distance(transform.position, agent.destination) < .1f)
             StartCoroutine(DelayMove());
     }
 
     public IEnumerator DelayMove()
     {
         wait = true;
-        yield return new WaitForSeconds(Random.Range(3f, 7f));
+        yield return new WaitForEndOfFrame();
+        //yield return new WaitForSeconds(Random.Range(3f, 7f));
         Move();
         wait = false;
     }
