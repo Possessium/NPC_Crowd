@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IWanderer
+public interface IKickable
 {
-    IEnumerator DelayMove();
+    public void Kick(Transform _from);
+
+
 
 }

@@ -10,6 +10,8 @@ public class NPC : MonoBehaviour
     [SerializeField] private Animator animator = null;
     private readonly int hash_Move = Animator.StringToHash("Distance");
 
+    private bool wait = false;
+
     private protected Vector3 targetPoint = Vector3.zero;
 
 
@@ -22,10 +24,15 @@ public class NPC : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(targetPoint, .2f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, targetPoint);
     }
 
     protected virtual void Update()
     {
+        if (!wait && Vector3.Distance(transform.position, agent.destination) < .1f)
+            StartCoroutine(DelayMove());
+
         animator.SetFloat(hash_Move, Mathf.MoveTowards(animator.GetFloat(hash_Move), Vector3.Distance(transform.position, agent.destination), Time.deltaTime * 2));
     }
 
@@ -49,7 +56,7 @@ public class NPC : MonoBehaviour
         return false;
     }
 
-    private protected void Move()
+    private void Move()
     {
         if (GetRandomPoint(transform.position, randomPointRange, out targetPoint))
         {
@@ -59,4 +66,11 @@ public class NPC : MonoBehaviour
             Move();
     }
 
+    IEnumerator DelayMove()
+    {
+        wait = true;
+        yield return new WaitForSeconds(Random.Range(3f, 7f));
+        Move();
+        wait = false;
+    }
 }
