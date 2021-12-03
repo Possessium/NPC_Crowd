@@ -21,7 +21,6 @@ public class Can : MonoBehaviour, IPickable, IKickable
 
     public void PickUp(Transform _parent)
     {
-        Debug.Log("Pick");
         transform.position = _parent.position;
         transform.parent = _parent;
         physics.velocity = Vector3.zero;

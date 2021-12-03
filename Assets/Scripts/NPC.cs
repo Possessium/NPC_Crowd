@@ -7,7 +7,7 @@ public class NPC : MonoBehaviour
 {
     [SerializeField] private protected NavMeshAgent agent = null;
     [SerializeField] private float randomPointRange = 10.0f;
-    [SerializeField] private Animator animator = null;
+    [SerializeField] private protected Animator animator = null;
     private readonly int hash_Move = Animator.StringToHash("Distance");
 
     private bool wait = false;
@@ -56,7 +56,7 @@ public class NPC : MonoBehaviour
         return false;
     }
 
-    private void Move()
+    private protected void Move()
     {
         if (GetRandomPoint(transform.position, randomPointRange, out targetPoint))
         {

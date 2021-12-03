@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class Kicker : NPC
 {
-    [SerializeField] private LayerMask layerBall = 0;
-
     protected override void Update()
     {
         base.Update();
 
 
-        RaycastHit _hit;
-        if (Physics.SphereCast(transform.position, 1, Vector3.up, out _hit, layerBall))
+        RaycastHit[] _hits;
+        _hits = Physics.SphereCastAll(transform.position, 1, Vector3.up);
+
+        if (_hits.Length > 0)
         {
-            if(_hit.transform && _hit.transform.GetComponent<IKickable>() != null)
-                _hit.transform.GetComponent<IKickable>().Kick(transform);
+            foreach (RaycastHit _hit in _hits)
+            {
+                if (_hit.transform && _hit.transform.GetComponent<IKickable>() != null)
+                {
+                    _hit.transform.GetComponent<IKickable>().Kick(transform);
+                    break;
+                }
+            }
         }
     }
 
