@@ -7,7 +7,8 @@ public class MouseNPC : NPC
 {
     protected override void Start()
     {
-        //
+        TryGetComponent(out agent);
+        TryGetComponent(out animator);
     }
 
     protected override void Update()
@@ -39,7 +40,10 @@ public class MouseNPC : NPC
                 _result = _hit.position;
                 agent.CalculatePath(_result, navMeshPath);
                 if (navMeshPath.status == NavMeshPathStatus.PathComplete)
+                {
+                    targetPoint = _result;
                     return _result;
+                }
             }
         }
         return agent.destination;

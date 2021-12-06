@@ -5,9 +5,9 @@ using UnityEngine.AI;
 
 public class NPC : MonoBehaviour
 {
-    [SerializeField] private protected NavMeshAgent agent = null;
+    /*[SerializeField]*/ private protected NavMeshAgent agent = null;
+    /*[SerializeField]*/ private protected Animator animator = null;
     [SerializeField] private float randomPointRange = 10.0f;
-    [SerializeField] private protected Animator animator = null;
     private readonly int hash_Move = Animator.StringToHash("Distance");
 
     private bool wait = false;
@@ -17,10 +17,13 @@ public class NPC : MonoBehaviour
 
     protected virtual void Start()
     {
+        TryGetComponent(out agent);
+        TryGetComponent(out animator);
+
         Move();
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(targetPoint, .2f);

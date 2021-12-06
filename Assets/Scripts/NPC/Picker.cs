@@ -5,14 +5,14 @@ using UnityEngine;
 public class Picker : NPC
 {
     [SerializeField] Transform hand = null;
-    private IPickable grabbedObject = null;
+    public IPickable GrabbedObject { get; private set; } = null;
     bool canGrab = true;
 
     protected override void Update()
     {
         base.Update();
 
-        if(grabbedObject == null && canGrab)
+        if(GrabbedObject == null && canGrab)
         {
             RaycastHit[] _hits;
             _hits = Physics.SphereCastAll(transform.position, 1, Vector3.up);
@@ -23,8 +23,8 @@ public class Picker : NPC
                 {
                     if (_hit.transform && _hit.transform.GetComponent<IPickable>() != null)
                     {
-                        grabbedObject = _hit.transform.GetComponent<IPickable>();
-                        grabbedObject.PickUp(hand);
+                        GrabbedObject = _hit.transform.GetComponent<IPickable>();
+                        GrabbedObject.PickUp(hand);
                         StartCoroutine(WaitDrop());
                         break;
                     }
@@ -37,8 +37,8 @@ public class Picker : NPC
     {
         canGrab = false;
         yield return new WaitForSeconds(Random.Range(3f, 7f));
-        grabbedObject.Drop();
-        grabbedObject = null;
+        GrabbedObject.Drop();
+        GrabbedObject = null;
         yield return new WaitForSeconds(10);
         canGrab = true;
     }
