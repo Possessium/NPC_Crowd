@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IKickable
 {
+    public Rigidbody Physic { get; }
     public void Kick(Transform _from);
 
 

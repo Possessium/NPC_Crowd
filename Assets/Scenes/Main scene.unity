@@ -2726,7 +2726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6975045474169522315, guid: b66d13b14422ddd498798b46896749b2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b66d13b14422ddd498798b46896749b2, type: 3}
@@ -2753,6 +2753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomPointRange: 10
+  targetPoint: {x: 0, y: 0, z: 0}
 --- !u!1 &697616641
 GameObject:
   m_ObjectHideFlags: 0
@@ -4357,7 +4358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6975045474169522315, guid: b66d13b14422ddd498798b46896749b2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b66d13b14422ddd498798b46896749b2, type: 3}
@@ -4384,6 +4385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomPointRange: 10
+  targetPoint: {x: 0, y: 0, z: 0}
   radius: 2
 --- !u!1 &936633385
 GameObject:
@@ -6017,7 +6019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6975045474169522315, guid: b66d13b14422ddd498798b46896749b2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b66d13b14422ddd498798b46896749b2, type: 3}
@@ -6044,6 +6046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomPointRange: 10
+  targetPoint: {x: 0, y: 0, z: 0}
 --- !u!1 &1071091712
 GameObject:
   m_ObjectHideFlags: 0
@@ -8148,6 +8151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomPointRange: 10
+  targetPoint: {x: 0, y: 0, z: 0}
 --- !u!43 &1697477689
 Mesh:
   m_ObjectHideFlags: 0
@@ -8706,7 +8710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6975045474169522315, guid: b66d13b14422ddd498798b46896749b2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b66d13b14422ddd498798b46896749b2, type: 3}
@@ -8738,6 +8742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomPointRange: 10
+  targetPoint: {x: 0, y: 0, z: 0}
   hand: {fileID: 1922509700}
 --- !u!43 &1976114865
 Mesh:

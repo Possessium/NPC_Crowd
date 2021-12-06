@@ -12,7 +12,7 @@ public class NPC : MonoBehaviour
 
     private bool wait = false;
 
-    private protected Vector3 targetPoint = Vector3.zero;
+    [SerializeField] private protected Vector3 targetPoint = Vector3.zero;
 
 
     protected virtual void Start()
