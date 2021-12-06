@@ -15,7 +15,7 @@ public class Picker : NPC
         if(GrabbedObject == null && canGrab)
         {
             RaycastHit[] _hits;
-            _hits = Physics.SphereCastAll(transform.position, 1, Vector3.up);
+            _hits = Physics.SphereCastAll(transform.position, 3, Vector3.up);
 
             if (_hits.Length > 0)
             {
@@ -23,9 +23,14 @@ public class Picker : NPC
                 {
                     if (_hit.transform && _hit.transform.GetComponent<IPickable>() != null)
                     {
-                        GrabbedObject = _hit.transform.GetComponent<IPickable>();
-                        GrabbedObject.PickUp(hand);
-                        StartCoroutine(WaitDrop());
+                        agent.destination = _hit.transform.position;
+                        targetPoint = _hit.transform.position;
+                        if (Vector3.Distance(_hit.transform.position, transform.position) <= 1)
+                        {
+                            GrabbedObject = _hit.transform.GetComponent<IPickable>();
+                            GrabbedObject.PickUp(hand);
+                            StartCoroutine(WaitDrop());
+                        }
                         break;
                     }
                 }

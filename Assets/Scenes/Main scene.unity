@@ -8126,6 +8126,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kicker
       objectReference: {fileID: 0}
+    - target: {fileID: 6975045474169522315, guid: b66d13b14422ddd498798b46896749b2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b66d13b14422ddd498798b46896749b2, type: 3}
 --- !u!4 &1695568941 stripped
