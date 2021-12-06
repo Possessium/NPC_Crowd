@@ -15,7 +15,7 @@ public class NPC : MonoBehaviour
     private protected Vector3 targetPoint = Vector3.zero;
 
 
-    private protected void Start()
+    protected virtual void Start()
     {
         Move();
     }
@@ -33,9 +33,10 @@ public class NPC : MonoBehaviour
         if (!wait && Vector3.Distance(transform.position, agent.destination) < .1f)
             StartCoroutine(DelayMove());
 
-        animator.SetFloat(hash_Move, Mathf.MoveTowards(animator.GetFloat(hash_Move), Vector3.Distance(transform.position, agent.destination), Time.deltaTime * 2));
+        Animate();
     }
 
+    protected void Animate() => animator.SetFloat(hash_Move, Mathf.MoveTowards(animator.GetFloat(hash_Move), Vector3.Distance(transform.position, agent.destination), Time.deltaTime * 2));
 
     private bool GetRandomPoint(Vector3 _center, float _range, out Vector3 _result)
     {
