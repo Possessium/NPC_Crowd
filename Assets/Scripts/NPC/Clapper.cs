@@ -14,22 +14,39 @@ public class Clapper : NPC
     {
         base.Update();
 
-        animator.SetBool(hash_Clapping, IsClapping);
-
+        // Allow the agent to move or not based on the IsClapping bool
         agent.isStopped = IsClapping;
     }
 
-    bool GetPickerNear()
+    /// <summary>
+    /// Set the correct values of the animator based on the character movement
+    /// </summary>
+    private protected override void Animate()
     {
+        base.Animate();
+
+        // Add the clap animation for this NPC only
+        animator.SetBool(hash_Clapping, IsClapping);
+    }
+
+    /// <summary>
+    /// Search for a picker around itself
+    /// </summary>
+    /// <returns>true if found any</returns>
+    private bool GetPickerNear()
+    {
+        // Create an array with all the RaycastHit around the character
         RaycastHit[] _hits;
-        if((_hits = Physics.SphereCastAll(transform.position, radius, Vector3.up)).Length > 0)
+        _hits = Physics.SphereCastAll(transform.position, radius, Vector3.up);
+
+        // Loop through every RaycastHit found
+        foreach (RaycastHit _hit in _hits)
         {
-            foreach (RaycastHit _hit in _hits)
-            {
-                if (_hit.transform.GetComponent<Picker>() && _hit.transform.GetComponent<Picker>().GrabbedObject != null)
-                    return true;
-            }
+            // If there is a Picker around and he hold an object return true
+            if (_hit.transform.GetComponent<Picker>() && _hit.transform.GetComponent<Picker>().GrabbedObject != null)
+                return true;
         }
+        // If no object or correct Picker has been found, return false
         return false;
     }
 
