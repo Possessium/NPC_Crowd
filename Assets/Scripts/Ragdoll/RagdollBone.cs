@@ -6,16 +6,23 @@ using System.Linq;
 public class RagdollBone : MonoBehaviour
 {
     public Rigidbody BonePhysics;
-    private bool isRagdoll;
-    RagdollBone[] ragdollBones;
+    [SerializeField] private bool isRagdoll;
+    Vector3 position;
+    Quaternion rotation;
 
-    private void Start()
+    private void Awake()
     {
         TryGetComponent(out BonePhysics);
-        BonePhysics.isKinematic = true;
-        BonePhysics.useGravity = false;
-        ragdollBones = FindObjectsOfType<RagdollBone>();
-        ragdollBones = ragdollBones.Where(x => x != this).ToArray();
+        position = transform.position;
+        rotation = transform.rotation;
+    }
+    private void Update()
+    {
+        if (!isRagdoll)
+        {
+            transform.position = position;
+            transform.rotation = rotation;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -23,16 +30,15 @@ public class RagdollBone : MonoBehaviour
         if(!isRagdoll && collision.gameObject.tag == "Projectile")
         {
             Destroy(collision.gameObject);
-            ToggleRagdoll(true);
             AnimationToRagdoll.Instance.ToggleRagdoll(true);
-            BonePhysics.AddForce((collision.contacts[0].normal + collision.contacts[0].thisCollider.attachedRigidbody.velocity) * AnimationToRagdoll.Instance.Force);
+            BonePhysics.AddForce((collision.transform.position - collision.contacts[0].point) * AnimationToRagdoll.Instance.Force);
         }
     }
 
     public void ToggleRagdoll(bool _toggle)
     {
-        BonePhysics.isKinematic = _toggle;
-        BonePhysics.useGravity = !_toggle;
+        BonePhysics.isKinematic = !_toggle;
+        BonePhysics.useGravity = _toggle;
         isRagdoll = _toggle;
         if(!_toggle)
         {

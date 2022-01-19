@@ -6,18 +6,18 @@ public class AnimationToRagdoll : MonoBehaviour
 {
     public static AnimationToRagdoll Instance {  get; private set; }
 
-    [SerializeField] private Collider myCollider;
     [SerializeField] private float respawnTime = 30f;
     public float Force = 30f;
-    [SerializeField] private Rigidbody bodyCenter;
+    private Animator animator;
     public RagdollBone[] RagdollBones { get; private set; }
     public bool BIsRagdoll { get; private set; } = false;
-    private readonly int walkHash = Animator.StringToHash("Walk");
-    private readonly int idleHash = Animator.StringToHash("Idle");
-    private Rigidbody projectileTouching;
+    private readonly int walkHash = Animator.StringToHash("Distance");
+    private readonly int idleHash = Animator.StringToHash("Stand");
+    private readonly int clapHash = Animator.StringToHash("Clapping");
+    private readonly int sitHash = Animator.StringToHash("Sit");
     [SerializeField] private Transform hips;
     [SerializeField] private Vector3 startHipsPosition;
-    private Vector3 normalHit;
+    [SerializeField] private Quaternion startHipsRotation;
 
     private void Awake()
     {
@@ -26,15 +26,12 @@ public class AnimationToRagdoll : MonoBehaviour
 
     private void Start()
     {
-        TryGetComponent(out myCollider);
-        startHipsPosition = hips.localPosition;
+        startHipsPosition = hips.position;
+        startHipsRotation = hips.rotation;
+
+        animator = GetComponent<Animator>();
 
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
-
-        //foreach (Rigidbody ragdollBone in rigidbodies)
-        //{
-        //    ragdollBone.isKinematic = true;
-        //}
 
         foreach (Rigidbody rb in rigidbodies)
         {
@@ -42,33 +39,23 @@ public class AnimationToRagdoll : MonoBehaviour
         }
 
         RagdollBones = FindObjectsOfType<RagdollBone>();
-    }
+        foreach (RagdollBone ragdollBone in RagdollBones)
+        {
+            ragdollBone.ToggleRagdoll(false);
+        }
+        ToggleRagdoll(false);
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (!BIsRagdoll && collision.gameObject.tag == "Projectile")
-    //    {
-    //        projectileTouching = collision.rigidbody;
-    //        normalHit = collision.GetContact(0).normal;
-    //        ToggleRagdoll(false);
-    //        StartCoroutine(GetBackUp());
-    //    }
-    //}
+    }
 
     public void ToggleRagdoll(bool _toggle)
     {
         BIsRagdoll = _toggle;
-        //myCollider.enabled = bisAnimating;
-        foreach (RagdollBone ragdollBone in RagdollBones)
-        {
-            ragdollBone.BonePhysics.isKinematic = !_toggle;
-        }
-        //if (projectileTouching)
-        //    bodyCenter.AddForce(normalHit * force, ForceMode.Impulse);
-
-        GetComponent<Animator>().enabled = !_toggle;
         if (_toggle)
         {
+            foreach (RagdollBone ragdollBone in RagdollBones)
+            {
+                ragdollBone.ToggleRagdoll(true);
+            }
             StartCoroutine(GetBackUp());
         }
     }
@@ -80,19 +67,24 @@ public class AnimationToRagdoll : MonoBehaviour
         {
             ragdollBone.ToggleRagdoll(false);
         }
-        hips.localPosition = startHipsPosition;
-        projectileTouching = null;
+        hips.position = startHipsPosition;
+        hips.rotation = startHipsRotation;
         ToggleRagdoll(false);
-        RandomAnimation();
+        //RandomAnimation();
     }
 
     private void RandomAnimation()
     {
-        int randomNum = Random.Range(0, 2);
-        Animator animator = GetComponent<Animator>();
+        animator.SetBool(clapHash, false);
+        animator.SetFloat(walkHash, 0);
+        int randomNum = Random.Range(0, 4);
         if (randomNum == 0)
-            animator.SetTrigger(walkHash);
-        else
+            animator.SetTrigger(sitHash);
+        else if (randomNum == 1)
             animator.SetTrigger(idleHash);
+        else if (randomNum == 2)
+            animator.SetBool(clapHash, true);
+        else
+            animator.SetFloat(walkHash, 1);
     }
 }
